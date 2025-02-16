@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+    <div class="max-w-xl mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Update Blog</h1>
+        <form id="updateForm" class="bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" value="{{ blog.name }}" required
+                       class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <input type="text" id="description" name="description" value="{{ blog.description }}" required
+                       class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <input type="submit" value="Update Blog"
+                       class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 cursor-pointer">
+            </div>
+        </form>
+        <div class="mt-4 text-center">
+            <a href="/" class="text-blue-500 hover:text-blue-700">Cancel</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("updateForm").onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new URLSearchParams();
+            formData.append("name", document.getElementById("name").value);
+            formData.append("description", document.getElementById("description").value);
+            const response = await fetch("/update_blog/{{ blog.id }}", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            });
+
+            if (response.ok) {
+                alert("Blog updated successfully!");
+                window.location.href = '/';
+            } else {
+                alert("Failed to update the blog.");
+            }
+        };
+    </script>
+</body>
+</html>

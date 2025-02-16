@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+    <div class="max-w-4xl mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-6">Create a New Blog</h1>
+        <form id="createForm" class="bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" required 
+                       class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <input type="text" id="description" name="description" required
+                       class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="mt-6 flex justify-between items-center">
+                <input type="submit" value="Create Blog"
+                       class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 cursor-pointer">
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById("createForm").onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch("/create_blog/", {
+                method: "POST",
+                body: formData,
+            });
+            if (response.ok) {
+                window.location.href = '/';
+            } else {
+                alert("Failed to create the blog.");
+            }
+        };
+    </script>
+</body>
+</html>
